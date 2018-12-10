@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
+use Storage;
 
 class InspiringCommand extends Command
 {
@@ -28,8 +29,13 @@ class InspiringCommand extends Command
      */
     public function handle()
     {
-
-        $this->info('Simplicity is the ultimate sophistication.');
+        if (Storage::exists('test.txt')) {
+            $this->info('The file exists, and contains:');
+            $this->info(Storage::get('test.txt'));
+        } else {
+            $this->info('The file does not exist, creating.');
+            Storage::put('test.txt', 'test content');
+        }
     }
 
     /**
